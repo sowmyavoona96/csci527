@@ -1,0 +1,152 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Unity.MLAgents;
+using static TTConstants;
+
+public class GameController : MonoBehaviour {
+    
+    public Ball ball;
+    public TTAgent agentA;
+    public TTAgent agentB;
+    Rigidbody ballRB;
+
+    public void Start() {
+        Debug.Log("game controller called");
+        ballRB = ball.GetComponent<Rigidbody>();
+      // matchReset();
+    }
+
+    void agentScores(TTConstants.TeamEnum agent)
+    {
+        float rewardA = agent.Equals(TTConstants.TeamEnum.A) ? +1 : -1;
+        float rewardB = -rewardA;
+
+        agentA.SetReward(rewardA);
+        agentB.SetReward(rewardB);
+
+        if (agent.Equals(TTConstants.TeamEnum.A))
+            agentA.addScore(1);
+        else
+            agentB.addScore(1);
+
+        Debug.Log("agent scores: " + agent.ToString());
+        Debug.Log("CR: " + agentA.GetCumulativeReward());
+
+        episodeReset();
+    }
+
+    void episodeReset()
+    {
+        //Debug.Log("Resetting episode");
+        //TODO whose turn to serve
+        var flip = Random.Range(0, 2);
+        var serve = (flip < 1) ? TTConstants.TeamEnum.A
+                        : TTConstants.TeamEnum.B;
+
+        agentA.EndEpisode();
+        agentB.EndEpisode();
+        agentA.resetRacket();
+        agentB.resetRacket();
+        //TODO whose turn is it when an episode ends
+        ball.reset(serve);
+        ball.resetParameters();
+        Debug.Log("CR: " + agentA.GetCumulativeReward());
+    }
+
+    void matchReset()
+    {
+        Debug.Log("Resetting match");
+        episodeReset();
+        agentA.resetScore();
+        agentB.resetScore();
+    }
+
+    void ballHitReward(TTConstants.Team agent) {
+        if (agent.isA())
+            agentA.AddReward(0.4f);
+        else
+            agentB.AddReward(0.4f);
+    }
+    public void ballHitsAgent(TTConstants.Team agent,
+        TTConstants.ObjectTypeEnum lastCollidedWith,
+        TTConstants.TeamEnum lastHitAgentTeam,
+        TTConstants.TeamEnum nextAgentTurn) {
+
+        //agent didn't let the ball bounce on his side (check serve case)
+        //or agent hits the ball twice
+
+        // Debug.Log("GC ball hits agent: " + agent.teamEnum.ToString());
+
+        // ballHitReward(agent);
+       
+        if (lastCollidedWith != ObjectTypeEnum.NA
+            && lastCollidedWith != agent.getFloor())
+                agentScores(agent.getOpponentTeam());
+
+        else if (lastHitAgentTeam == agent.getTeam())
+            agentScores(agent.getOpponentTeam());
+
+    }
+
+    public void ballHitsFloor(TTConstants.Team floor,
+        TTConstants.ObjectTypeEnum lastCollidedWith,
+        TTConstants.TeamEnum lastHitAgentTeam,
+        TTConstants.TeamEnum nextAgentTurn)
+    {
+        //hits on his own court side?
+        //or if agent doesn't serve 
+        //agent let ball bounce twice on his court
+
+        //Debug.Log("GC: ball hits floor: " + floor.teamEnum.ToString());
+       
+        if (lastHitAgentTeam == floor.getTeam()
+            || lastCollidedWith == TTConstants.ObjectTypeEnum.NA
+            || lastCollidedWith == floor.getFloor())
+        {
+            agentScores(floor.getOpponentTeam());
+
+        }
+    }
+
+    public void ballHitsBoundary(TTConstants.Team boundary,
+        TTConstants.ObjectTypeEnum lastCollidedWith,
+        TTConstants.TeamEnum lastHitAgentTeam,
+        TTConstants.TeamEnum nextAgentTurn)
+    {
+        //Debug.Log("GC ball hits boundary: " + boundary.teamEnum.ToString());
+
+        if (nextAgentTurn != TTConstants.TeamEnum.NA)
+            agentScores(nextAgentTurn == TTConstants.TeamEnum.A ?
+                TTConstants.TeamEnum.B : TTConstants.TeamEnum.A);
+
+        else if (lastHitAgentTeam == TTConstants.TeamEnum.A)
+            agentScores(TTConstants.TeamEnum.B);
+        else if (lastHitAgentTeam == TTConstants.TeamEnum.B)
+            agentScores(TTConstants.TeamEnum.A);
+        else
+        {
+            Debug.Log("ball hits boundary edge case");
+            episodeReset();
+        }
+    }
+
+    public void agentHitsNet(TTConstants.Team agent)
+    {
+        agentScores(agent.getOpponentTeam());
+    }
+
+    void FixedUpdate()
+    {
+        /*
+       var ballVelocity = ballRB.velocity;
+       if (ballVelocity.x == 0 && ballVelocity.y == 0 && ballVelocity.z == 0)
+       {
+            Debug.Log("velocity = 0");
+            episodeReset();
+       }
+        */
+       // ballRB.velocity = new Vector3(Mathf.Clamp(rgV.x, -9f, 9f), Mathf.Clamp(rgV.y, -9f, 9f), rgV.z);
+    }
+  
+}
