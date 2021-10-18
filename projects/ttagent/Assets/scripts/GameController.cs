@@ -11,10 +11,17 @@ public class GameController : MonoBehaviour {
     public TTAgent agentB;
     Rigidbody ballRB;
 
+    int resetTimer = 0;
+    float maxEnvironmentSteps ;
+    EnvironmentParameters environmentParameters;
+
     public void Start() {
         Debug.Log("game controller called");
         ballRB = ball.GetComponent<Rigidbody>();
-      // matchReset();
+        environmentParameters = Academy.Instance.EnvironmentParameters;
+
+        maxEnvironmentSteps = environmentParameters.GetWithDefault("max_academy_steps", 10000);
+        //matchReset();
     }
 
     void agentScores(TTConstants.TeamEnum agent)
@@ -30,14 +37,15 @@ public class GameController : MonoBehaviour {
         else
             agentB.addScore(1);
 
-        Debug.Log("agent scores: " + agent.ToString());
-        Debug.Log("CR: " + agentA.GetCumulativeReward());
+        //Debug.Log("agent scores: " + agent.ToString());
+        //Debug.Log("CR: " + agentA.GetCumulativeReward());
 
         episodeReset();
     }
 
     void episodeReset()
     {
+        resetTimer = 0;
         //Debug.Log("Resetting episode");
         //TODO whose turn to serve
         var flip = Random.Range(0, 2);
@@ -51,10 +59,10 @@ public class GameController : MonoBehaviour {
         //TODO whose turn is it when an episode ends
         ball.reset(serve);
         ball.resetParameters();
-        Debug.Log("CR: " + agentA.GetCumulativeReward());
+        //Debug.Log("CR: " + agentA.GetCumulativeReward());
     }
 
-    void matchReset()
+    public void matchReset()
     {
         Debug.Log("Resetting match");
         episodeReset();
@@ -138,6 +146,15 @@ public class GameController : MonoBehaviour {
 
     void FixedUpdate()
     {
+        resetTimer += 1;
+        if (resetTimer >= maxEnvironmentSteps && maxEnvironmentSteps > 0)
+        {
+            Debug.Log("reset timer exceeded max steps");
+            agentA.EpisodeInterrupted();
+            agentB.EpisodeInterrupted();
+            episodeReset();
+        }
+
         /*
        var ballVelocity = ballRB.velocity;
        if (ballVelocity.x == 0 && ballVelocity.y == 0 && ballVelocity.z == 0)
@@ -146,7 +163,7 @@ public class GameController : MonoBehaviour {
             episodeReset();
        }
         */
-       // ballRB.velocity = new Vector3(Mathf.Clamp(rgV.x, -9f, 9f), Mathf.Clamp(rgV.y, -9f, 9f), rgV.z);
+        // ballRB.velocity = new Vector3(Mathf.Clamp(rgV.x, -9f, 9f), Mathf.Clamp(rgV.y, -9f, 9f), rgV.z);
     }
   
 }

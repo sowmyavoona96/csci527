@@ -40,6 +40,10 @@ public class TTConstants
     public static string tag_episode= "episode";
     public static string tag_stepCount = "stepCount";
 
+    public static string tag_gameController = "GameController";
+    public static string tag_gameTextA = "gameA";
+    public static string tag_gameTextB = "gameB";
+    public static string tag_gameCountText = "gameCount";
 
     public enum ObjectTypeEnum {
         BALL, AGENT_A, AGENT_B, NET, BOUNDARY_A, BOUNDARY_B,
