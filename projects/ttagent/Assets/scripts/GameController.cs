@@ -12,7 +12,10 @@ public class GameController : MonoBehaviour {
     Rigidbody ballRB;
 
     int resetTimer = 0;
-    float maxEnvironmentSteps ;
+    float maxEnvironmentSteps;
+    float ballHitReward;
+    float ballOverNetReward;
+
     EnvironmentParameters environmentParameters;
 
     public void Start() {
@@ -20,7 +23,10 @@ public class GameController : MonoBehaviour {
         ballRB = ball.GetComponent<Rigidbody>();
         environmentParameters = Academy.Instance.EnvironmentParameters;
 
-        maxEnvironmentSteps = environmentParameters.GetWithDefault("max_academy_steps", 10000);
+        maxEnvironmentSteps = environmentParameters.GetWithDefault(TTConstants.env_max_academy_steps, 10000);
+        ballHitReward = environmentParameters.GetWithDefault(TTConstants.env_reward_ball_hit, 0);
+        ballOverNetReward = environmentParameters.GetWithDefault(TTConstants.env_reward_ball_over_net, 0);
+
         //matchReset();
     }
 
@@ -43,38 +49,20 @@ public class GameController : MonoBehaviour {
         episodeReset();
     }
 
-    void episodeReset()
-    {
-        resetTimer = 0;
-        //Debug.Log("Resetting episode");
-        //TODO whose turn to serve
-        var flip = Random.Range(0, 2);
-        var serve = (flip < 1) ? TTConstants.TeamEnum.A
-                        : TTConstants.TeamEnum.B;
-
-        agentA.EndEpisode();
-        agentB.EndEpisode();
-        agentA.resetRacket();
-        agentB.resetRacket();
-        //TODO whose turn is it when an episode ends
-        ball.reset(serve);
-        ball.resetParameters();
-        //Debug.Log("CR: " + agentA.GetCumulativeReward());
-    }
-
-    public void matchReset()
-    {
-        Debug.Log("Resetting match");
-        episodeReset();
-        agentA.resetScore();
-        agentB.resetScore();
-    }
-
-    void ballHitReward(TTConstants.Team agent) {
+    void agentHitsBallReward(TTConstants.Team agent) {
         if (agent.isA())
-            agentA.AddReward(0.4f);
+            agentA.AddReward(ballHitReward);
         else
-            agentB.AddReward(0.4f);
+            agentB.AddReward(ballHitReward);
+    }
+
+    public void agentHitsBallAcrossNetReward(TTConstants.Team agent)
+    {
+        if (agent.isA())
+            agentA.AddReward(ballOverNetReward);
+        else
+            agentB.AddReward(ballOverNetReward);
+
     }
     public void ballHitsAgent(TTConstants.Team agent,
         TTConstants.ObjectTypeEnum lastCollidedWith,
@@ -86,7 +74,7 @@ public class GameController : MonoBehaviour {
 
         // Debug.Log("GC ball hits agent: " + agent.teamEnum.ToString());
 
-        // ballHitReward(agent);
+        agentHitsBallReward(agent);
        
         if (lastCollidedWith != ObjectTypeEnum.NA
             && lastCollidedWith != agent.getFloor())
@@ -146,6 +134,7 @@ public class GameController : MonoBehaviour {
 
     void FixedUpdate()
     {
+        /*
         resetTimer += 1;
         if (resetTimer >= maxEnvironmentSteps && maxEnvironmentSteps > 0)
         {
@@ -154,16 +143,43 @@ public class GameController : MonoBehaviour {
             agentB.EpisodeInterrupted();
             episodeReset();
         }
-
-        /*
+        */
+       
        var ballVelocity = ballRB.velocity;
        if (ballVelocity.x == 0 && ballVelocity.y == 0 && ballVelocity.z == 0)
        {
             Debug.Log("velocity = 0");
             episodeReset();
        }
-        */
+       
         // ballRB.velocity = new Vector3(Mathf.Clamp(rgV.x, -9f, 9f), Mathf.Clamp(rgV.y, -9f, 9f), rgV.z);
     }
-  
+
+    void episodeReset()
+    {
+        resetTimer = 0;
+        //Debug.Log("Resetting episode");
+        //TODO whose turn to serve
+        var flip = Random.Range(0, 2);
+        var serve = (flip < 1) ? TTConstants.TeamEnum.A
+                        : TTConstants.TeamEnum.B;
+
+        agentA.EndEpisode();
+        agentB.EndEpisode();
+        agentA.resetRacket();
+        agentB.resetRacket();
+        //TODO whose turn is it when an episode ends
+        ball.reset(serve);
+        ball.resetParameters();
+        //Debug.Log("CR: " + agentA.GetCumulativeReward());
+    }
+
+    public void matchReset()
+    {
+        Debug.Log("Resetting match");
+        episodeReset();
+        agentA.resetScore();
+        agentB.resetScore();
+    }
+
 }

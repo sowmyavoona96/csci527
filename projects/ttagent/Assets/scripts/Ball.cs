@@ -109,6 +109,22 @@ public class Ball : MonoBehaviour
 
     }
 
+    /*
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag(TTConstants.tag_overNet))
+        {
+            Debug.Log("over net");
+            if (!lastHitAgent.Equals(TeamEnum.NA))
+            {
+                gameController.agentHitsBallAcrossNetReward(
+                lastHitAgent.Equals(TeamEnum.A) ? typeA : typeB);
+            }
+
+        }
+    }
+    */
+
     public void reset(TeamEnum serve)
     {
         var ballPos_X = serve == TeamEnum.A ? Random.Range(init_transform_ball_X_LB,
@@ -122,7 +138,7 @@ public class Ball : MonoBehaviour
     }
 
     public void resetParameters() {
-        Debug.Log("Ball: reset parameters");
+       // Debug.Log("Ball: reset parameters");
         lastHitAgent = TeamEnum.NA;
         nextAgentTurn = TeamEnum.NA;
         lastCollidedWith = ObjectTypeEnum.NA;

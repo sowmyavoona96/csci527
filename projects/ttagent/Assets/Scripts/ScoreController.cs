@@ -31,17 +31,17 @@ public class ScoreController : MonoBehaviour
                         .GetComponent<TMPro.TextMeshProUGUI>();
         scoreText_B = GameObject.FindGameObjectWithTag(TTConstants.tag_scoreB)
                         .GetComponent<TMPro.TextMeshProUGUI>();
-        gameTextA = GameObject.FindGameObjectWithTag(TTConstants.tag_gameTextA)
+        gameTextA = GameObject.FindGameObjectWithTag(TTConstants.tag_game_textA)
                         .GetComponent<TMPro.TextMeshProUGUI>();
-        gameTextB = GameObject.FindGameObjectWithTag(TTConstants.tag_gameTextB)
+        gameTextB = GameObject.FindGameObjectWithTag(TTConstants.tag_game_textB)
                         .GetComponent<TMPro.TextMeshProUGUI>();
 
-        gameCountText = GameObject.FindGameObjectWithTag(TTConstants.tag_gameCountText)
+        gameCountText = GameObject.FindGameObjectWithTag(TTConstants.tag_game_count_text)
                         .GetComponent<TMPro.TextMeshProUGUI>();
 
         episodeText = GameObject.FindGameObjectWithTag(TTConstants.tag_episode)
                         .GetComponent<TMPro.TextMeshProUGUI>();
-        stepText = GameObject.FindGameObjectWithTag(TTConstants.tag_stepCount)
+        stepText = GameObject.FindGameObjectWithTag(TTConstants.tag_step_count)
                         .GetComponent<TMPro.TextMeshProUGUI>();
        
         agentA = GameObject.FindGameObjectWithTag(TTConstants.tag_agentA)
@@ -49,7 +49,7 @@ public class ScoreController : MonoBehaviour
         agentB = GameObject.FindGameObjectWithTag(TTConstants.tag_agentB)
                     .GetComponent<TTAgent>();
 
-        gameController = GameObject.FindGameObjectWithTag(TTConstants.tag_gameController)
+        gameController = GameObject.FindGameObjectWithTag(TTConstants.tag_game_controller)
                            .GetComponent<GameController>();
 
         scoreText_A.text = "0";
@@ -60,7 +60,7 @@ public class ScoreController : MonoBehaviour
         gameTextA.text = "(0)";
         gameTextB.text = "(0)";
 
-        currGame = 1;
+        resetParameters();
     }
 
     void resetParameters() {
@@ -71,6 +71,7 @@ public class ScoreController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         scoreText_A.text = agentA.getScore().ToString();
         scoreText_B.text = agentB.getScore().ToString();
         gameTextA.text = "(" + gamesWon_A.ToString() + ")";
@@ -80,21 +81,24 @@ public class ScoreController : MonoBehaviour
         stepText.text = agentA.StepCount.ToString();
         episodeText.text = agentA.CompletedEpisodes.ToString();
 
-        if (currGame == totalGames) {
-            if (gamesWon_A > gamesWon_B)
-                Debug.Log("Agent A won: " + gamesWon_A);
-            else
-                Debug.Log("Agent B won: " + gamesWon_B);
-
-            resetParameters();
-            gameController.matchReset();
-        }
         if (agentA.getScore() == 11 || agentB.getScore() == 11) {
             currGame++;
+
             if (agentA.getScore() == 11)
                 gamesWon_A += 1;
             else
                 gamesWon_B += 1;
+
+            if (gamesWon_A + gamesWon_B == totalGames)
+            {
+                if (gamesWon_A > gamesWon_B)
+                    Debug.Log("Agent A won: " + gamesWon_A);
+                else
+                    Debug.Log("Agent B won: " + gamesWon_B);
+
+                resetParameters();
+                gameController.matchReset();
+            }
 
             Debug.Log("Game ends: " + currGame);
             gameController.matchReset();

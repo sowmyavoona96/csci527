@@ -33,17 +33,22 @@ public class TTConstants
     public static string tag_boundaryB = "boundaryB";
 
     public static string tag_net = "net";
+    public static string tag_overNet = "overNet";
 
     public static string tag_canvas = "canvas";
     public static string tag_scoreA = "scoreA";
     public static string tag_scoreB = "scoreB";
     public static string tag_episode= "episode";
-    public static string tag_stepCount = "stepCount";
+    public static string tag_step_count = "stepCount";
 
-    public static string tag_gameController = "GameController";
-    public static string tag_gameTextA = "gameA";
-    public static string tag_gameTextB = "gameB";
-    public static string tag_gameCountText = "gameCount";
+    public static string tag_game_controller = "GameController";
+    public static string tag_game_textA = "gameA";
+    public static string tag_game_textB = "gameB";
+    public static string tag_game_count_text = "gameCount";
+
+    public static string env_max_academy_steps = "max_academy_steps";
+    public static string env_reward_ball_hit = "reward_ball_hit";
+    public static string env_reward_ball_over_net = "reward_ball_over_net";
 
     public enum ObjectTypeEnum {
         BALL, AGENT_A, AGENT_B, NET, BOUNDARY_A, BOUNDARY_B,
