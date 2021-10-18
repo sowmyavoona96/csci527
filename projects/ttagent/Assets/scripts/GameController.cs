@@ -50,6 +50,7 @@ public class GameController : MonoBehaviour {
     }
 
     void agentHitsBallReward(TTConstants.Team agent) {
+        Debug.Log("Agent hits ball reward: " + agent.teamEnum.ToString());
         if (agent.isA())
             agentA.AddReward(ballHitReward);
         else
@@ -58,6 +59,8 @@ public class GameController : MonoBehaviour {
 
     public void agentHitsBallAcrossNetReward(TTConstants.Team agent)
     {
+        Debug.Log("Agent hits ball across net reward: " + agent.teamEnum.ToString());
+
         if (agent.isA())
             agentA.AddReward(ballOverNetReward);
         else
@@ -148,7 +151,7 @@ public class GameController : MonoBehaviour {
        var ballVelocity = ballRB.velocity;
        if (ballVelocity.x == 0 && ballVelocity.y == 0 && ballVelocity.z == 0)
        {
-            Debug.Log("velocity = 0");
+           // Debug.Log("velocity = 0");
             episodeReset();
        }
        

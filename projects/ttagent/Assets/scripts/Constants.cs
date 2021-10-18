@@ -34,6 +34,7 @@ public class TTConstants
 
     public static string tag_net = "net";
     public static string tag_overNet = "overNet";
+    public static string tag_overNet_trigger = "overNet_trigger";
 
     public static string tag_canvas = "canvas";
     public static string tag_scoreA = "scoreA";

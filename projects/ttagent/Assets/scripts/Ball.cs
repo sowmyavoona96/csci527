@@ -109,12 +109,12 @@ public class Ball : MonoBehaviour
 
     }
 
-    /*
-    private void OnTriggerEnter(Collider other)
+    
+    void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag(TTConstants.tag_overNet))
+        if (other.gameObject.CompareTag(TTConstants.tag_overNet_trigger))
         {
-            Debug.Log("over net");
+           // Debug.Log("over net");
             if (!lastHitAgent.Equals(TeamEnum.NA))
             {
                 gameController.agentHitsBallAcrossNetReward(
@@ -123,7 +123,7 @@ public class Ball : MonoBehaviour
 
         }
     }
-    */
+    
 
     public void reset(TeamEnum serve)
     {
