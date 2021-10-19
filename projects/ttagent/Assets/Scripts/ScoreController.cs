@@ -71,7 +71,8 @@ public class ScoreController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Debug.Log("Score Controller update");
+
         scoreText_A.text = agentA.getScore().ToString();
         scoreText_B.text = agentB.getScore().ToString();
         gameTextA.text = "(" + gamesWon_A.ToString() + ")";
@@ -81,7 +82,7 @@ public class ScoreController : MonoBehaviour
         stepText.text = agentA.StepCount.ToString();
         episodeText.text = agentA.CompletedEpisodes.ToString();
 
-        if (agentA.getScore() == 11 || agentB.getScore() == 11) {
+        if (agentA.getScore() >= 11 || agentB.getScore() >= 11) {
             currGame++;
 
             if (agentA.getScore() == 11)
@@ -89,20 +90,21 @@ public class ScoreController : MonoBehaviour
             else
                 gamesWon_B += 1;
 
+            Debug.Log("Game ends: " + currGame);
+
             if (gamesWon_A + gamesWon_B == totalGames)
             {
+                Debug.Log("match over");
+
                 if (gamesWon_A > gamesWon_B)
                     Debug.Log("Agent A won: " + gamesWon_A);
                 else
                     Debug.Log("Agent B won: " + gamesWon_B);
 
                 resetParameters();
-                gameController.matchReset();
             }
 
-            Debug.Log("Game ends: " + currGame);
             gameController.matchReset();
-
         }
     }
 }

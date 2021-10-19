@@ -40,7 +40,7 @@ behaviors:
 
 environment_parameters:
     max_academy_steps: 5000
-    reward_ball_hit: 0.02
-    reward_ball_over_net: 0.08
+    reward_ball_hit: 0.002
+    reward_ball_over_net: 0.008
         
         
