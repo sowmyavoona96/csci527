@@ -71,7 +71,8 @@ public class ScoreController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Score Controller update");
+        
+        //Debug.Log("Score Controller update");
 
         scoreText_A.text = agentA.getScore().ToString();
         scoreText_B.text = agentB.getScore().ToString();

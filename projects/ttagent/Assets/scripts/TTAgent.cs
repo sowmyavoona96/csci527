@@ -85,7 +85,7 @@ public class TTAgent : Agent{
 
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
-      //  Debug.Log("on action received: " + getString());
+        //Debug.Log("on action received: " + getString());
         //execute actions
         ActionSegment<float> actSegment = actionBuffers.ContinuousActions;
         var moveX = Mathf.Clamp(actSegment[0], -1f, 1f) * agent_mult;
@@ -125,13 +125,15 @@ public class TTAgent : Agent{
     public void resetRacket() {
        // Debug.Log("Reset racket: " + getString());
 
-        var x_lb = isAgentA ? TTConstants.init_transform_agent_X_LB: agent_mult * TTConstants.init_transform_agent_X_RB;
-        var x_rb = isAgentA ? TTConstants.init_transform_agent_X_RB : agent_mult * TTConstants.init_transform_agent_X_LB;
+        var x_lb = isAgentA ? TTConstants.init_transform_agent_X_LB:
+            agent_mult * TTConstants.init_transform_agent_X_RB;
+        var x_rb = isAgentA ? TTConstants.init_transform_agent_X_RB :
+            agent_mult * TTConstants.init_transform_agent_X_LB;
 
         transform.position = new Vector3(Random.Range(x_lb, x_rb),
             Random.Range(TTConstants.init_transform_agent_Y_LB,
             TTConstants.init_transform_agent_Y_UB), 0);
-
+        
         transform.eulerAngles = new Vector3(
                   agent_mult * TTConstants.init_rotate_agent_X,
                    TTConstants.init_rotate_agent_Y,
