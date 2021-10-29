@@ -22,14 +22,7 @@ public class TTAgent : Agent{
     Team typeA;
     Team typeB;
 
-    public GameObject agentScoreTextObj;
-    public GameObject agentEpisodeTextObj;
-    public GameObject agentStepTextObj;
-
-    TMPro.TextMeshProUGUI agentScoreText;
-    TMPro.TextMeshProUGUI agentEpisodeText;
-    TMPro.TextMeshProUGUI agentStepText;
-
+  
     public override void Initialize() {
        // Debug.Log("Agent initialize: " + getString());
         agentRB = GetComponent<Rigidbody>();
@@ -41,22 +34,11 @@ public class TTAgent : Agent{
         typeA = new Team(TeamEnum.A);
         typeB = new Team(TeamEnum.B);
 
-        agentEpisodeTextObj = GameObject.FindGameObjectWithTag(TTConstants.tag_episode);
-        agentStepTextObj = GameObject.FindGameObjectWithTag(TTConstants.tag_stepCount);
-
-        agentScoreText = agentScoreTextObj.GetComponent<TMPro.TextMeshProUGUI>();
-        agentEpisodeText = agentEpisodeTextObj.GetComponent<TMPro.TextMeshProUGUI>();
-        agentStepText = agentStepTextObj.GetComponent<TMPro.TextMeshProUGUI>();
-
-        agentScoreText.text = "0";
-        agentEpisodeText.text = "0";
-        agentStepText.text = "0";
         resetRacket();
 
     }
 
     public override void OnEpisodeBegin(){
-        agentEpisodeText.text = this.CompletedEpisodes.ToString();
         resetRacket();
     }
 
@@ -103,7 +85,7 @@ public class TTAgent : Agent{
 
     public override void OnActionReceived(ActionBuffers actionBuffers)
     {
-      //  Debug.Log("on action received: " + getString());
+        //Debug.Log("on action received: " + getString());
         //execute actions
         ActionSegment<float> actSegment = actionBuffers.ContinuousActions;
         var moveX = Mathf.Clamp(actSegment[0], -1f, 1f) * agent_mult;
@@ -132,16 +114,6 @@ public class TTAgent : Agent{
                                                             90f + rotateY * 55f,
                                                             agent_mult * 180);
         */
-
-
-        //agentRB.velocity = new Vector3(moveX * 5f, agentRB.velocity.y, 0f);
-        //if (moveY > 0.5)
-        //{
-        //    agentRB.velocity = new Vector3(agentRB.velocity.x, 2f, 0f);
-        //}
-
-        agentScoreText.text = this.getScore().ToString();
-        agentStepText.text = this.StepCount.ToString();
     }
 
     void OnCollisionEnter(Collision c){
@@ -153,13 +125,15 @@ public class TTAgent : Agent{
     public void resetRacket() {
        // Debug.Log("Reset racket: " + getString());
 
-        var x_lb = isAgentA ? TTConstants.init_transform_agent_X_LB: agent_mult * TTConstants.init_transform_agent_X_RB;
-        var x_rb = isAgentA ? TTConstants.init_transform_agent_X_RB : agent_mult * TTConstants.init_transform_agent_X_LB;
+        var x_lb = isAgentA ? TTConstants.init_transform_agent_X_LB:
+            agent_mult * TTConstants.init_transform_agent_X_RB;
+        var x_rb = isAgentA ? TTConstants.init_transform_agent_X_RB :
+            agent_mult * TTConstants.init_transform_agent_X_LB;
 
         transform.position = new Vector3(Random.Range(x_lb, x_rb),
             Random.Range(TTConstants.init_transform_agent_Y_LB,
             TTConstants.init_transform_agent_Y_UB), 0);
-
+        
         transform.eulerAngles = new Vector3(
                   agent_mult * TTConstants.init_rotate_agent_X,
                    TTConstants.init_rotate_agent_Y,
