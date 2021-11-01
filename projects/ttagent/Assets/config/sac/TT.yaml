@@ -1,5 +1,5 @@
 behaviors:
- My Behavior:
+ my_behavior:
     trainer_type: sac
     hyperparameters:
         learning_rate: 0.0003
@@ -40,7 +40,69 @@ behaviors:
 
 environment_parameters:
     max_academy_steps: 5000
-    reward_ball_hit: 0.002
-    reward_ball_over_net: 0.008
-        
+    reward_ball_hit: #0.002
+        curriculum:
+          - name: MyFirstLesson # The '-' is important as this is a list
+            completion_criteria:
+              measure: progress
+              behavior: my_behavior
+              signal_smoothing: true
+              min_lesson_length: 100
+              threshold: 0.2
+            value: 0.3
+          - name: MySecondLesson # This is the start of the second lesson
+            completion_criteria:
+              measure: progress
+              behavior: my_behavior
+              signal_smoothing: true
+              min_lesson_length: 100
+              threshold: 0.6
+              require_reset: true
+            value: 0.01
+          - name: MyLastLesson
+            value: 0
+
+    reward_ball_over_net: #0.008
+        curriculum:
+          - name: MyFirstLesson # The '-' is important as this is a list
+            completion_criteria:
+              measure: progress
+              behavior: my_behavior
+              signal_smoothing: true
+              min_lesson_length: 100
+              threshold: 0.2
+            value: 0.6
+          - name: MySecondLesson # This is the start of the second lesson
+            completion_criteria:
+              measure: progress
+              behavior: my_behavior
+              signal_smoothing: true
+              min_lesson_length: 100
+              threshold: 0.6
+              require_reset: true
+            value: 0.03
+          - name: MyLastLesson
+            value: 0
+
+    reward_agent: 
+        curriculum:
+          - name: MyFirstLesson # The '-' is important as this is a list
+            completion_criteria:
+              measure: progress
+              behavior: my_behavior
+              signal_smoothing: true
+              min_lesson_length: 100
+              threshold: 0.2
+            value: 0.1
+          - name: MySecondLesson # This is the start of the second lesson
+            completion_criteria:
+              measure: progress
+              behavior: my_behavior
+              signal_smoothing: true
+              min_lesson_length: 100
+              threshold: 0.6
+              require_reset: true
+            value: 0.7
+          - name: MyLastLesson
+            value: 1
         

@@ -50,6 +50,8 @@ public class TTConstants
     public static string env_max_academy_steps = "max_academy_steps";
     public static string env_reward_ball_hit = "reward_ball_hit";
     public static string env_reward_ball_over_net = "reward_ball_over_net";
+    public static string env_reward_agent = "reward_agent";
+
 
     public enum ObjectTypeEnum {
         BALL, AGENT_A, AGENT_B, NET, BOUNDARY_A, BOUNDARY_B,

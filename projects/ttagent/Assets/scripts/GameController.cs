@@ -15,7 +15,7 @@ public class GameController : MonoBehaviour {
     float maxEnvironmentSteps;
     float ballHitReward;
     float ballOverNetReward;
-
+    float agentReward;
     EnvironmentParameters environmentParameters;
 
     public void Start() {
@@ -26,13 +26,13 @@ public class GameController : MonoBehaviour {
         maxEnvironmentSteps = environmentParameters.GetWithDefault(TTConstants.env_max_academy_steps, 10000);
         ballHitReward = environmentParameters.GetWithDefault(TTConstants.env_reward_ball_hit, 0);
         ballOverNetReward = environmentParameters.GetWithDefault(TTConstants.env_reward_ball_over_net, 0);
-
+        agentReward = environmentParameters.GetWithDefault(TTConstants.env_reward_agent, 1);
         //matchReset();
     }
 
     void agentScores(TTConstants.TeamEnum agent)
     {
-        float rewardA = agent.Equals(TTConstants.TeamEnum.A) ? +1 : -1;
+        float rewardA = (agent.Equals(TTConstants.TeamEnum.A) ? +1 : -1) * environmentParameters.GetWithDefault(TTConstants.env_reward_agent, 1); ;
         float rewardB = -rewardA;
 
         agentA.SetReward(rewardA);
@@ -50,11 +50,13 @@ public class GameController : MonoBehaviour {
     }
 
     void agentHitsBallReward(TTConstants.Team agent) {
-       // Debug.Log("Agent hits ball reward: " + agent.teamEnum.ToString());
+        Debug.Log("Agent hits ball reward: " + agent.teamEnum.ToString()
+        + ", reward: " + environmentParameters.GetWithDefault(TTConstants.env_reward_ball_hit, 0));
+
         if (agent.isA())
-            agentA.AddReward(ballHitReward);
+            agentA.AddReward(environmentParameters.GetWithDefault(TTConstants.env_reward_ball_hit, 0));
         else
-            agentB.AddReward(ballHitReward);
+            agentB.AddReward(environmentParameters.GetWithDefault(TTConstants.env_reward_ball_hit, 0));
     }
 
     public void agentHitsBallAcrossNetReward(TTConstants.Team agent)
@@ -62,9 +64,9 @@ public class GameController : MonoBehaviour {
         //Debug.Log("Agent hits ball across net reward: " + agent.teamEnum.ToString());
 
         if (agent.isA())
-            agentA.AddReward(ballOverNetReward);
+            agentA.AddReward(environmentParameters.GetWithDefault(TTConstants.env_reward_ball_over_net, 0));
         else
-            agentB.AddReward(ballOverNetReward);
+            agentB.AddReward(environmentParameters.GetWithDefault(TTConstants.env_reward_ball_over_net, 0));
 
     }
     public void ballHitsAgent(TTConstants.Team agent,
