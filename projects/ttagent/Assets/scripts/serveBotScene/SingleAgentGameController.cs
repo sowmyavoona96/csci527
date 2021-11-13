@@ -29,11 +29,12 @@ public class SingleAgentGameController : MonoBehaviour
         ballHitReward = environmentParameters.GetWithDefault(env_reward_ball_hit, 0);
         ballOverNetReward = environmentParameters.GetWithDefault(env_reward_ball_over_net, 0);
         agentReward = environmentParameters.GetWithDefault(env_reward_agent, 1);
-        //matchReset();
+        matchReset();
     }
 
     void agentScores(TeamEnum team)
     {
+        
         if (team.Equals(TeamEnum.AGENT))
             this.agent.addScore(1);
         else
@@ -43,6 +44,7 @@ public class SingleAgentGameController : MonoBehaviour
         //Debug.Log("CR: " + agentA.GetCumulativeReward());
         
       episodeReset();
+
     }
 
     public void agentPenalty(TeamEnum team)
@@ -146,7 +148,7 @@ public class SingleAgentGameController : MonoBehaviour
     }
 
     public void ballCollidesEdgeCase() {
-        episodeReset();
+       episodeReset();
 
     }
 

@@ -146,6 +146,7 @@ public class SingleAgentBat : Agent
                   agent_mult * TTConstants.init_rotate_agent_X,
                    TTConstants.init_rotate_agent_Y,
                    agent_mult * TTConstants.init_rotate_agent_Z);
+     
     }
 
     public void resetScore()
