@@ -101,23 +101,15 @@ public class SingleAgentBat : Agent
          var moveY = Mathf.Clamp(actSegment[1], -1f, 1f);
          var moveZ = Mathf.Clamp(actSegment[2], -1f, 1f);
         
-        //var rotateX = Mathf.Clamp(actSegment[3], -1f, 1f) * agent_mult;
+         var rotateX = Mathf.Clamp(actSegment[3], -1f, 1f) * agent_mult;
         agentRB.velocity = new Vector3(moveX * init_velocity_X,
                                         moveY * init_velocity_Y,
                                         moveZ * init_velocity_Z);
         
-      /*  gameObject.transform.rotation = Quaternion.Euler(-agent_mult * 90f
+         gameObject.transform.rotation = Quaternion.Euler(-agent_mult * 90f
                                                             + rotateX * 55f,
                                                             90f,
                                                             agent_mult * 180f);
-        */
-
-        if (actSegment[3] == 1) {
-            Debug.Log("hit s");
-            bot.serveBall();
-
-        }
-
 
     }
 
