@@ -59,10 +59,18 @@ public class SingleAgentConstants
     public static string env_max_academy_steps = "max_academy_steps";
     public static string env_reward_ball_hit = "singleAgent_reward_ball_hit";
     public static string env_reward_ball_over_net = "singleAgent_reward_ball_over_net";
-    public static string env_reward_agent = "singleAgent_reward_bat";
+    public static string env_reward_ball_hit_table = "singleAgent_reward_ball_hit_table";
+    public static string env_penalty_foul_hit = "singleAgent_penalty_foul_hit";
+    public static string env_penalty_no_hit = "singleAgent_penalty_no_hit";
+    public static string env_penalty_foul_floor = "singleAgent_rpenalty_foul_floor";
+    public static string env_penalty_boundary_hit = "singleAgent_penalty_boundary_hit";
+    public static string env_penalty_net_hit = "singleAgent_penalty_net_hit";
 
-    public static string env_reward_penalty = "singleAgent_reward_penalty";
 
+    public enum RewardType {
+        AGENT_HITS_BALL, AGENT_HITS_BALL_ACROSS_NET, AGENT_HITS_BALL_ONTO_TABLE,
+        AGENT_FOUL_HIT, AGENT_FLOOR_FOUL, AGENT_DOESNT_HIT, AGENT_HITS_BOUNDARY, AGENT_HITS_NET
+    }
     public enum ObjectTypeEnum
     {
         BALL, AGENT, BOT, NET, BOUNDARY_A, BOUNDARY_B,

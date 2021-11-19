@@ -14,9 +14,15 @@ public class SingleAgentGameController : MonoBehaviour
 
     int resetTimer = 0;
     float maxEnvironmentSteps;
-    float ballHitReward;
-    float ballOverNetReward;
-    float agentReward;
+    float rewardBallHit;
+    float rewardBallOverNet;
+    float rewardBallOnTable;
+    float penaltyFoulHit;
+    float penaltyNoHit;
+    float penaltyFloorFoul;
+    float penaltyBoundaryHit;
+    float penaltyNetHit;
+
     EnvironmentParameters environmentParameters;
 
     public void Start()
@@ -26,48 +32,63 @@ public class SingleAgentGameController : MonoBehaviour
         environmentParameters = Academy.Instance.EnvironmentParameters;
 
         maxEnvironmentSteps = environmentParameters.GetWithDefault(env_max_academy_steps, 10000);
-        ballHitReward = environmentParameters.GetWithDefault(env_reward_ball_hit, 0);
-        ballOverNetReward = environmentParameters.GetWithDefault(env_reward_ball_over_net, 0);
-        agentReward = environmentParameters.GetWithDefault(env_reward_agent, 1);
-        //matchReset();
+        rewardBallHit = environmentParameters.GetWithDefault(env_reward_ball_hit, 0.2f);
+        rewardBallOverNet = environmentParameters.GetWithDefault(env_reward_ball_over_net, 0.3f);
+        rewardBallOnTable = environmentParameters.GetWithDefault(env_reward_ball_hit_table, 0.5f);
+
+        penaltyFoulHit = environmentParameters.GetWithDefault(env_penalty_foul_hit, 0);
+        penaltyNoHit = environmentParameters.GetWithDefault(env_penalty_no_hit, 0);
+        penaltyFloorFoul = environmentParameters.GetWithDefault(env_penalty_foul_floor, 0);
+        penaltyBoundaryHit = environmentParameters.GetWithDefault(env_penalty_boundary_hit, 0);
+        penaltyNetHit = environmentParameters.GetWithDefault(env_penalty_net_hit, 0);
+
     }
 
     void agentScores(TeamEnum team)
-    {
-        
+    { 
         if (team.Equals(TeamEnum.AGENT))
             this.agent.addScore(1);
         else
             bot.addScore(1);
-
-        //Debug.Log("agent scores: " + agent.ToString());
-        //Debug.Log("CR: " + agentA.GetCumulativeReward());
         
       episodeReset();
 
     }
 
-    public void agentPenalty(TeamEnum team)
-    {
-        if (team.Equals(TeamEnum.AGENT))
-            this.agent.AddReward(environmentParameters.GetWithDefault(env_reward_penalty, 0));
-    }
+    public void agentReward(TeamEnum team, RewardType rewardType) {
+        if (!team.Equals(TeamEnum.AGENT))
+            return;
 
-    void agentHitsBallReward(Team team)
-    {
-        Debug.Log("Agent hits ball reward: " + team.teamEnum.ToString()
-        + ", reward: " + environmentParameters.GetWithDefault(env_reward_ball_hit, 0));
+        Debug.Log("reward: " + rewardType.ToString());
 
-        if (team.isAgent())
-            this.agent.AddReward(environmentParameters.GetWithDefault(env_reward_ball_hit, 0));
-    }
+        switch (rewardType) {
+            case RewardType.AGENT_HITS_BALL:
+                this.agent.AddReward(rewardBallHit);
+                break;
+            case RewardType.AGENT_HITS_BALL_ACROSS_NET:
+                this.agent.AddReward(rewardBallOverNet);
+                break;
+            case RewardType.AGENT_HITS_BALL_ONTO_TABLE:
+                this.agent.AddReward(rewardBallOnTable);
+                break;
+            case RewardType.AGENT_FOUL_HIT:
+                this.agent.AddReward(penaltyFoulHit);
+                break;
+            case RewardType.AGENT_FLOOR_FOUL:
+                this.agent.AddReward(penaltyFloorFoul);
+                break;
+            case RewardType.AGENT_DOESNT_HIT:
+                this.agent.AddReward(penaltyNoHit);
+                break;
+            case RewardType.AGENT_HITS_BOUNDARY:
+                this.agent.AddReward(penaltyBoundaryHit);
+                break;
+            case RewardType.AGENT_HITS_NET:
+                this.agent.AddReward(penaltyBoundaryHit);
+                break;
 
-    public void agentHitsBallAcrossNetReward(Team team)
-    {
-        //Debug.Log("Agent hits ball across net reward: " + agent.teamEnum.ToString());
+        }
 
-        if (team.isAgent())
-            this.agent.AddReward(environmentParameters.GetWithDefault(env_reward_ball_over_net, 0));
     }
 
     public void ballHitsAgent(Team team,
@@ -79,16 +100,16 @@ public class SingleAgentGameController : MonoBehaviour
         //agent didn't let the ball bounce on his side (check serve case)
         //or agent hits the ball twice
 
-        // Debug.Log("GC ball hits agent: " + agent.teamEnum.ToString());
+        agentReward(team.teamEnum, RewardType.AGENT_HITS_BALL);
+       // agentHitsBallReward(team);
 
-        agentHitsBallReward(team);
-
-        //negative reward for foul moves
+        //negative reward for hitting before ball hits floor or hitting ball twice
         if (lastCollidedWith != team.getFloor()
             || lastHitAgentTeam == team.getTeam())
             
         {
-            agentPenalty(team.getTeam());
+            agentReward(team.teamEnum, RewardType.AGENT_FOUL_HIT);
+            //agentPenalty(team.getTeam());
             agentScores(team.getOpponentTeam());
 
         }
@@ -104,13 +125,17 @@ public class SingleAgentGameController : MonoBehaviour
         //or if agent doesn't serve 
         //agent let ball bounce twice on his court
 
-        //Debug.Log("GC: ball hits floor: " + floor.teamEnum.ToString());
-
         if (lastHitAgentTeam == floor.getTeam()
             || lastCollidedWith == floor.getFloor())
         {
+            agentReward(floor.getTeam(), RewardType.AGENT_FLOOR_FOUL);
+            //agentPenalty(floor.getTeam());
             agentScores(floor.getOpponentTeam());
 
+        }
+        else if (lastHitAgentTeam == floor.getOpponentTeam()) {
+            agentReward(lastHitAgentTeam, RewardType.AGENT_HITS_BALL_ONTO_TABLE);
+            //agentHitsOpponentTableReward(lastHitAgentTeam);
         }
     }
 
@@ -119,31 +144,33 @@ public class SingleAgentGameController : MonoBehaviour
         TeamEnum lastHitAgentTeam,
         TeamEnum nextAgentTurn)
     {
-        //Debug.Log("GC ball hits boundary: " + boundary.teamEnum.ToString());
 
         if (nextAgentTurn != TeamEnum.NA)
         {
-            agentPenalty(nextAgentTurn == TeamEnum.AGENT ?
-                  TeamEnum.BOT : TeamEnum.AGENT);
+            agentReward(nextAgentTurn, RewardType.AGENT_DOESNT_HIT);
+            //agentPenalty(nextAgentTurn);
             agentScores(nextAgentTurn == TeamEnum.AGENT ?
                   TeamEnum.BOT : TeamEnum.AGENT);
 
         }
-           
-
-        else if (lastHitAgentTeam == TeamEnum.AGENT)
+        else if (lastHitAgentTeam == TeamEnum.AGENT) {
             agentScores(TeamEnum.BOT);
+            agentReward(nextAgentTurn, RewardType.AGENT_HITS_BOUNDARY);
+            //agentPenalty(TeamEnum.AGENT);
+        }
         else if (lastHitAgentTeam == TeamEnum.BOT)
             agentScores(TeamEnum.AGENT);
+            //TODO 
         else
         {
             Debug.Log("ball hits boundary edge case");
-          episodeReset();
+            episodeReset();
         }
     }
 
     public void agentHitsNet(Team team)
     {
+        agentReward(team.teamEnum, RewardType.AGENT_HITS_NET);
         agentScores(team.getOpponentTeam());
     }
 
@@ -167,12 +194,12 @@ public class SingleAgentGameController : MonoBehaviour
    
     void episodeReset()
     {
+        Debug.Log("Resetting episode");
         resetTimer = 0;
         agent.EndEpisode();
         agent.resetRacket();
         bot.serveBall();
         ball.resetParameters();
-        //Debug.Log("CR: " + agentA.GetCumulativeReward());
     }
 
     public void matchReset()

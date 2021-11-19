@@ -121,8 +121,10 @@ public class SingleAgentBall : MonoBehaviour
             // Debug.Log("over net");
             if (!lastHitAgent.Equals(TeamEnum.NA))
             {
-                gameController.agentHitsBallAcrossNetReward(
-                lastHitAgent.Equals(TeamEnum.AGENT) ? typeA : typeB);
+                gameController.agentReward(lastHitAgent, RewardType.AGENT_HITS_BALL_ACROSS_NET);
+
+                /*gameController.agentHitsBallAcrossNetReward(
+                lastHitAgent.Equals(TeamEnum.AGENT) ? typeA : typeB);*/
             }
 
         }
