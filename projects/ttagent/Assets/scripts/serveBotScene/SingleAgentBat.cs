@@ -97,6 +97,7 @@ public class SingleAgentBat : Agent
     {
         //Debug.Log("on action received: " + getString());
         //execute actions
+        /*
         ActionSegment<float> actSegment = actionBuffers.ContinuousActions;
          var moveX = Mathf.Clamp(actSegment[0], -1f, 1f) * agent_mult;
          var moveY = Mathf.Clamp(actSegment[1], -1f, 1f);
@@ -111,6 +112,7 @@ public class SingleAgentBat : Agent
                                                             + rotateX * 55f,
                                                             90f,
                                                             agent_mult * 180f);
+        */
 
     }
 

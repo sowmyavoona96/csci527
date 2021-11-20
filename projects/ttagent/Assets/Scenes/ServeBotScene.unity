@@ -2110,7 +2110,7 @@ GameObject:
   - component: {fileID: 1628954247}
   m_Layer: 0
   m_Name: backB
-  m_TagString: boundaryB
+  m_TagString: singleAgent_boundaryB
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -34,12 +34,20 @@ public class ServeBot : MonoBehaviour
         var x_vel = Random.Range(2.7f, 4f);
         var y_vel = 0f;
 
-        if (x_vel < 2.9)
+        if (x_vel < 2.9f)
             y_vel = Random.Range(3.7f, 4f);
 
         if(x_vel < 3f)
             y_vel = Random.Range(3.4f, 4f);
 
+        if (x_vel <= 3.5f)
+            y_vel = Random.Range(3.3f, 4f);
+
+        /*
+        if (x_vel <= 4f)
+            y_vel = Random.Range(3f, 3.5f);*/
+
+  
         var z_vel = 0;
 
         ballRB.velocity = new Vector3(3.5f, 4f, z_vel);
@@ -48,7 +56,7 @@ public class ServeBot : MonoBehaviour
         //2.8 - 3.7 to 4
         //2.9 - 3.4 to 4
         //3   - 3.3 - 4
-        //3.5 - 3 - 3.5 - 
+        //3.5 - 3 - 3.5 - 4
         //4   - 2.5 - 3 - 3.5?
 
 

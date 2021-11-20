@@ -45,12 +45,14 @@ public class SingleAgentGameController : MonoBehaviour
     }
 
     void agentScores(TeamEnum team)
-    { 
+    {
+        Debug.Log("agent scores: " + team.ToString());
         if (team.Equals(TeamEnum.AGENT))
             this.agent.addScore(1);
         else
             bot.addScore(1);
-        
+
+        Debug.Log("agent scores: calling reset episode");
        episodeReset();
 
     }
@@ -59,7 +61,7 @@ public class SingleAgentGameController : MonoBehaviour
         if (!team.Equals(TeamEnum.AGENT))
             return;
 
-        Debug.Log("reward: " + rewardType.ToString());
+        Debug.Log("reward: " + rewardType.ToString() + ", team: " + team.ToString());
 
         switch (rewardType) {
             case RewardType.AGENT_HITS_BALL:
@@ -154,13 +156,17 @@ public class SingleAgentGameController : MonoBehaviour
 
         }
         else if (lastHitAgentTeam == TeamEnum.AGENT) {
-            agentScores(TeamEnum.BOT);
             agentReward(nextAgentTurn, RewardType.AGENT_HITS_BOUNDARY);
+            agentScores(TeamEnum.BOT);
+
             //agentPenalty(TeamEnum.AGENT);
         }
-        else if (lastHitAgentTeam == TeamEnum.BOT)
+        else if (lastHitAgentTeam == TeamEnum.BOT) {
+            Debug.Log("bot threw ball onto boundary");
             agentScores(TeamEnum.AGENT);
             //TODO 
+
+        }
         else
         {
             Debug.Log("ball hits boundary edge case");
@@ -175,7 +181,8 @@ public class SingleAgentGameController : MonoBehaviour
     }
 
     public void ballCollidesEdgeCase() {
-       episodeReset();
+        Debug.Log("Ball collides edge case");
+        episodeReset();
 
     }
 
@@ -198,8 +205,8 @@ public class SingleAgentGameController : MonoBehaviour
         resetTimer = 0;
         agent.EndEpisode();
         agent.resetRacket();
-        bot.serveBall();
         ball.resetParameters();
+        bot.serveBall();
     }
 
     public void matchReset()
