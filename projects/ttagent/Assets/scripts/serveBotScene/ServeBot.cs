@@ -32,9 +32,9 @@ public class ServeBot : MonoBehaviour
         ballRB.transform.position = new Vector3(ballPos_X, ballPos_Y,
             ballPos_Z);
 
+        ball.setLastHitAgent(TeamEnum.BOT);
         ballRB.velocity = new Vector3(3f, 3.5f, 0);
         //ballRB.AddForce(Vector3.right * 20f + Vector3.up * 23f);
-        ball.setLastHitAgent(TeamEnum.BOT);
     }
 
 
