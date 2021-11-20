@@ -97,7 +97,7 @@ public class SingleAgentBat : Agent
     {
         //Debug.Log("on action received: " + getString());
         //execute actions
-        /*
+        
         ActionSegment<float> actSegment = actionBuffers.ContinuousActions;
          var moveX = Mathf.Clamp(actSegment[0], -1f, 1f) * agent_mult;
          var moveY = Mathf.Clamp(actSegment[1], -1f, 1f);
@@ -112,13 +112,12 @@ public class SingleAgentBat : Agent
                                                             + rotateX * 55f,
                                                             90f,
                                                             agent_mult * 180f);
-        */
 
     }
 
     void OnCollisionEnter(Collision c)
     {
-        if (c.gameObject.CompareTag(TTConstants.tag_net))
+        if (c.gameObject.CompareTag(SingleAgentConstants.tag_net))
         {
             gameController.agentHitsNet(getTeam());
         }
@@ -128,19 +127,19 @@ public class SingleAgentBat : Agent
     {
         // Debug.Log("Reset racket: " + getString());
 
-        var x_lb = isAgentA ? TTConstants.init_transform_agent_X_LB :
-            agent_mult * TTConstants.init_transform_agent_X_RB;
-        var x_rb = isAgentA ? TTConstants.init_transform_agent_X_RB :
-            agent_mult * TTConstants.init_transform_agent_X_LB;
+        var x_lb = isAgentA ? init_transform_agent_X_LB :
+            agent_mult * init_transform_agent_X_RB;
+        var x_rb = isAgentA ? init_transform_agent_X_RB :
+            agent_mult * init_transform_agent_X_LB;
 
         transform.position = new Vector3(Random.Range(x_lb, x_rb),
-            Random.Range(TTConstants.init_transform_agent_Y_LB,
-            TTConstants.init_transform_agent_Y_UB), 0);
+            Random.Range(init_transform_agent_Y_LB,
+            init_transform_agent_Y_UB), 0);
 
         transform.eulerAngles = new Vector3(
-                  agent_mult * TTConstants.init_rotate_agent_X,
-                   TTConstants.init_rotate_agent_Y,
-                   agent_mult * TTConstants.init_rotate_agent_Z);
+                  agent_mult * init_rotate_agent_X,
+                   init_rotate_agent_Y,
+                   agent_mult * init_rotate_agent_Z);
      
     }
 
@@ -162,8 +161,8 @@ public class SingleAgentBat : Agent
     public string getString()
     {
         return "agent" + ((isAgentA == true) ?
-             TTConstants.TeamEnum.A.ToString()
-             : TTConstants.TeamEnum.B.ToString());
+             TeamEnum.AGENT.ToString()
+             : TeamEnum.BOT.ToString());
 
     }
 

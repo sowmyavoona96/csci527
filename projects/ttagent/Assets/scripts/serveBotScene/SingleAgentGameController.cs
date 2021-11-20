@@ -48,7 +48,7 @@ public class SingleAgentGameController : MonoBehaviour
     {
         Debug.Log("agent scores: " + team.ToString());
         if (team.Equals(TeamEnum.AGENT))
-            this.agent.addScore(1);
+            agent.addScore(1);
         else
             bot.addScore(1);
 
@@ -147,6 +147,11 @@ public class SingleAgentGameController : MonoBehaviour
         TeamEnum lastHitAgentTeam,
         TeamEnum nextAgentTurn)
     {
+        Debug.Log("ball hits boundary call: "
+            + " boundary: " + boundary.teamEnum.ToString()
+            + ", lastCollidedWith: " + lastCollidedWith.ToString()
+            + ", lastHitAgentTeam: " + lastHitAgentTeam.ToString()
+            + ", nextAgentTurn: " + nextAgentTurn.ToString());
 
         if (nextAgentTurn != TeamEnum.NA)
         {
