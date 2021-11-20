@@ -13,7 +13,7 @@ public class SingleAgentConstants
     public static float init_transform_ball_X_RB = 1.145f;
 
     public static float init_transform_ball_Y_LB = 0.25f;
-    public static float init_transform_ball_Y_UB = 0.25f;
+    public static float init_transform_ball_Y_UB = 0.35f;
 
     public static float init_transform_ball_Z_LB = 0.53f;
     public static float init_transform_ball_Z_UB = -0.53f;

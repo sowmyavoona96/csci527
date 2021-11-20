@@ -51,7 +51,7 @@ public class SingleAgentGameController : MonoBehaviour
         else
             bot.addScore(1);
         
-      episodeReset();
+       episodeReset();
 
     }
 
@@ -194,7 +194,7 @@ public class SingleAgentGameController : MonoBehaviour
    
     void episodeReset()
     {
-        Debug.Log("Resetting episode");
+        Debug.Log("GC: Resetting episode");
         resetTimer = 0;
         agent.EndEpisode();
         agent.resetRacket();

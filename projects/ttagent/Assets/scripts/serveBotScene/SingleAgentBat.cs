@@ -88,8 +88,9 @@ public class SingleAgentBat : Agent
         contActionsOut[2] = Input.GetAxis("Vertical"); 
         contActionsOut[3] = Input.GetKey(KeyCode.S)? 1f: 0f;// X axis
         //contActionsOut[4] = Input.GetKey(KeyCode.Y) ? -1f : 0f;// Y axis
-
-
+        
+        if (contActionsOut[3] == 1)
+            bot.serveBall();
     }
 
     public override void OnActionReceived(ActionBuffers actionBuffers)

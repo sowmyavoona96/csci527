@@ -122,9 +122,6 @@ public class SingleAgentBall : MonoBehaviour
             if (!lastHitAgent.Equals(TeamEnum.NA))
             {
                 gameController.agentReward(lastHitAgent, RewardType.AGENT_HITS_BALL_ACROSS_NET);
-
-                /*gameController.agentHitsBallAcrossNetReward(
-                lastHitAgent.Equals(TeamEnum.AGENT) ? typeA : typeB);*/
             }
 
         }
