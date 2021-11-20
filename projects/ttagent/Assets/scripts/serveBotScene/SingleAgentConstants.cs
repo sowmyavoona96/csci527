@@ -52,6 +52,7 @@ public class SingleAgentConstants
     public static string tag_episode = "singleAgent_episode";
     public static string tag_step_count = "singleAgent_stepCount";
 
+    public static string tag_gameController = "singleAgent_gameController";
     public static string tag_game_textA = "singleAgent_gameA";
     public static string tag_game_textB = "singleAgent_gameB";
     public static string tag_game_count_text = "singleAgent_gameCount";

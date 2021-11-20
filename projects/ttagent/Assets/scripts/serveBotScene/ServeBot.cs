@@ -21,7 +21,7 @@ public class ServeBot : MonoBehaviour
    public void serveBall() {
         
         //Debug.Log("serving ball");
-        var ballPos_X = gameObject.transform.position.x;
+        var ballPos_X = gameObject.transform.position.x + 0.1f;
         var ballPos_Y = init_transform_ball_Y_LB;
         // Random.Range(init_transform_ball_Y_LB, init_transform_ball_Y_UB);
         var ballPos_Z = Random.Range(init_transform_ball_Z_LB, init_transform_ball_Z_UB);

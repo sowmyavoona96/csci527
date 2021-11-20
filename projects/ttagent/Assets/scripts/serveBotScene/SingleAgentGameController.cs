@@ -45,23 +45,28 @@ public class SingleAgentGameController : MonoBehaviour
     }
 
     void agentScores(TeamEnum team)
-    { 
+    {
+        Debug.Log("agent scores: " + team.ToString());
         if (team.Equals(TeamEnum.AGENT))
-            this.agent.addScore(1);
+            agent.addScore(1);
         else
             bot.addScore(1);
-        
-      episodeReset();
+
+        Debug.Log("agent scores: calling reset episode");
+        episodeReset();
 
     }
 
-    public void agentReward(TeamEnum team, RewardType rewardType) {
+    public void agentReward(TeamEnum team, RewardType rewardType)
+    {
+
+        Debug.Log("reward: " + rewardType.ToString() + ", team: " + team.ToString());
+
         if (!team.Equals(TeamEnum.AGENT))
             return;
 
-        Debug.Log("reward: " + rewardType.ToString());
-
-        switch (rewardType) {
+        switch (rewardType)
+        {
             case RewardType.AGENT_HITS_BALL:
                 this.agent.AddReward(rewardBallHit);
                 break;
@@ -101,12 +106,12 @@ public class SingleAgentGameController : MonoBehaviour
         //or agent hits the ball twice
 
         agentReward(team.teamEnum, RewardType.AGENT_HITS_BALL);
-       // agentHitsBallReward(team);
+        // agentHitsBallReward(team);
 
         //negative reward for hitting before ball hits floor or hitting ball twice
         if (lastCollidedWith != team.getFloor()
             || lastHitAgentTeam == team.getTeam())
-            
+
         {
             agentReward(team.teamEnum, RewardType.AGENT_FOUL_HIT);
             //agentPenalty(team.getTeam());
@@ -133,7 +138,8 @@ public class SingleAgentGameController : MonoBehaviour
             agentScores(floor.getOpponentTeam());
 
         }
-        else if (lastHitAgentTeam == floor.getOpponentTeam()) {
+        else if (lastHitAgentTeam == floor.getOpponentTeam())
+        {
             agentReward(lastHitAgentTeam, RewardType.AGENT_HITS_BALL_ONTO_TABLE);
             //agentHitsOpponentTableReward(lastHitAgentTeam);
         }
@@ -144,6 +150,11 @@ public class SingleAgentGameController : MonoBehaviour
         TeamEnum lastHitAgentTeam,
         TeamEnum nextAgentTurn)
     {
+        Debug.Log("ball hits boundary call: "
+            + " boundary: " + boundary.teamEnum.ToString()
+            + ", lastCollidedWith: " + lastCollidedWith.ToString()
+            + ", lastHitAgentTeam: " + lastHitAgentTeam.ToString()
+            + ", nextAgentTurn: " + nextAgentTurn.ToString());
 
         if (nextAgentTurn != TeamEnum.NA)
         {
@@ -153,14 +164,20 @@ public class SingleAgentGameController : MonoBehaviour
                   TeamEnum.BOT : TeamEnum.AGENT);
 
         }
-        else if (lastHitAgentTeam == TeamEnum.AGENT) {
+        else if (lastHitAgentTeam == TeamEnum.AGENT)
+        {
+            agentReward(TeamEnum.AGENT, RewardType.AGENT_HITS_BOUNDARY);
             agentScores(TeamEnum.BOT);
-            agentReward(nextAgentTurn, RewardType.AGENT_HITS_BOUNDARY);
+
             //agentPenalty(TeamEnum.AGENT);
         }
         else if (lastHitAgentTeam == TeamEnum.BOT)
+        {
+            Debug.Log("bot threw ball onto boundary: " + boundary.teamEnum.ToString());
             agentScores(TeamEnum.AGENT);
             //TODO 
+
+        }
         else
         {
             Debug.Log("ball hits boundary edge case");
@@ -174,8 +191,10 @@ public class SingleAgentGameController : MonoBehaviour
         agentScores(team.getOpponentTeam());
     }
 
-    public void ballCollidesEdgeCase() {
-       episodeReset();
+    public void ballCollidesEdgeCase()
+    {
+        Debug.Log("Ball collides edge case");
+        episodeReset();
 
     }
 
@@ -191,15 +210,15 @@ public class SingleAgentGameController : MonoBehaviour
 
     }
 
-   
+
     void episodeReset()
     {
-        Debug.Log("Resetting episode");
+        Debug.Log("GC: Resetting episode");
         resetTimer = 0;
         agent.EndEpisode();
         agent.resetRacket();
-        bot.serveBall();
         ball.resetParameters();
+        bot.serveBall();
     }
 
     public void matchReset()
