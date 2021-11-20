@@ -90,10 +90,12 @@ public class SingleAgentBall : MonoBehaviour
             TeamEnum boundaryTypeEnum;
             if (c.gameObject.CompareTag(tag_net))
                 boundaryTypeEnum = TeamEnum.NA;
-
-            boundaryTypeEnum =
+            else
+            {
+                boundaryTypeEnum =
                 c.gameObject.CompareTag(tag_boundaryA) ?
                 TeamEnum.AGENT : TeamEnum.BOT;
+            }
 
             Team boundaryType = boundaryTypeEnum.Equals(TeamEnum.AGENT) ? typeA : typeB;
             boundaryType = boundaryTypeEnum.Equals(TeamEnum.NA) ? null : boundaryType;

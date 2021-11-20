@@ -58,10 +58,11 @@ public class SingleAgentGameController : MonoBehaviour
     }
 
     public void agentReward(TeamEnum team, RewardType rewardType) {
+        
+        Debug.Log("reward: " + rewardType.ToString() + ", team: " + team.ToString());
+
         if (!team.Equals(TeamEnum.AGENT))
             return;
-
-        Debug.Log("reward: " + rewardType.ToString() + ", team: " + team.ToString());
 
         switch (rewardType) {
             case RewardType.AGENT_HITS_BALL:
@@ -162,7 +163,7 @@ public class SingleAgentGameController : MonoBehaviour
             //agentPenalty(TeamEnum.AGENT);
         }
         else if (lastHitAgentTeam == TeamEnum.BOT) {
-            Debug.Log("bot threw ball onto boundary");
+            Debug.Log("bot threw ball onto boundary: " + boundary.teamEnum.ToString());
             agentScores(TeamEnum.AGENT);
             //TODO 
 

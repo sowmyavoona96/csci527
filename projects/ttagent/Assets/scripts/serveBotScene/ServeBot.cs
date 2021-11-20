@@ -34,37 +34,32 @@ public class ServeBot : MonoBehaviour
         var x_vel = Random.Range(2.7f, 4f);
         var y_vel = 0f;
 
-        if (x_vel < 2.9f)
-            y_vel = Random.Range(3.7f, 4f);
+        x_vel = Random.Range(2.7f, 3f);
 
-        if(x_vel < 3f)
-            y_vel = Random.Range(3.4f, 4f);
+        if (x_vel <= 2.9f)
+           y_vel = Random.Range(3.7f, 4f);
 
-        if (x_vel <= 3.5f)
+        else if(x_vel <= 3f)
+            y_vel = Random.Range(3.3f, 3.8f);
+
+        else if (x_vel <= 3.5f)
             y_vel = Random.Range(3.3f, 4f);
 
-        /*
-        if (x_vel <= 4f)
-            y_vel = Random.Range(3f, 3.5f);*/
+        else if (x_vel <= 4f)
+            y_vel = Random.Range(3f, 3.5f);
 
   
-        var z_vel = 0;
+        var z_vel = 0f;
+        if (ballPos_Z < 0)
+            z_vel = Random.Range(0f, 0.5f);
+        else
+            z_vel = Random.Range(-0.5f, 0f);
 
-        ballRB.velocity = new Vector3(3.5f, 4f, z_vel);
+        Debug.Log("x: " + x_vel + ", y_vel: " + y_vel + ", z_vel: " + z_vel);
 
-        //2.7 - 3.7 to 4
-        //2.8 - 3.7 to 4
-        //2.9 - 3.4 to 4
-        //3   - 3.3 - 4
-        //3.5 - 3 - 3.5 - 4
-        //4   - 2.5 - 3 - 3.5?
-
-
-        //TODO add velocity: x-range and corresponding y ranges - choose randomly from here
-        //TODO add z range - that works for above list
-
-        //ballRB.AddForce(Vector3.right * 20f + Vector3.up * 23f);
         ball.setLastHitAgent(TeamEnum.BOT);
+        ballRB.velocity = new Vector3(x_vel, y_vel, z_vel);
+
     }
 
 
