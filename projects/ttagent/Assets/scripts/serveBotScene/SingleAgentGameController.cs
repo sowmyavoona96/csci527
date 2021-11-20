@@ -162,7 +162,7 @@ public class SingleAgentGameController : MonoBehaviour
 
         }
         else if (lastHitAgentTeam == TeamEnum.AGENT) {
-            agentReward(nextAgentTurn, RewardType.AGENT_HITS_BOUNDARY);
+            agentReward(TeamEnum.AGENT, RewardType.AGENT_HITS_BOUNDARY);
             agentScores(TeamEnum.BOT);
 
             //agentPenalty(TeamEnum.AGENT);
