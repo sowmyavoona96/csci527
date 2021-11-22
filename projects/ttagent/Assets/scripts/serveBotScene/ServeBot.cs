@@ -34,6 +34,9 @@ public class ServeBot : MonoBehaviour
 
         ball.setLastHitAgent(TeamEnum.BOT);
         ballRB.velocity = new Vector3(3f, 3.5f, 0);
+        ballRB.maxAngularVelocity = 20;
+        //ballRB.AddForce(new Vector3(2, 2, 2), ForceMode.VelocityChange);
+        ballRB.AddTorque(new Vector3(30, 30, 30), ForceMode.Force);
         //ballRB.AddForce(Vector3.right * 20f + Vector3.up * 23f);
     }
 
