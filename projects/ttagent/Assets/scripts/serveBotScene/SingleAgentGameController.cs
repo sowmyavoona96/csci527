@@ -147,9 +147,13 @@ public class SingleAgentGameController : MonoBehaviour
         TeamEnum lastHitAgentTeam,
         TeamEnum nextAgentTurn)
     {
-        Debug.Log("ball hits boundary call: "
-            + " boundary: " + boundary.teamEnum.ToString()
-            + ", lastCollidedWith: " + lastCollidedWith.ToString()
+        Debug.Log("ball hits boundary call: ");
+        if(boundary == null)
+            Debug.Log("ball hits net");
+        else
+            Debug.Log("ball hits: " + boundary.teamEnum.ToString());
+       
+        Debug.Log("lastCollidedWith: " + lastCollidedWith.ToString()
             + ", lastHitAgentTeam: " + lastHitAgentTeam.ToString()
             + ", nextAgentTurn: " + nextAgentTurn.ToString());
 
