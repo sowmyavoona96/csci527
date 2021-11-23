@@ -63,7 +63,7 @@ public class SingleAgentConstants
     public static string env_reward_ball_hit_table = "singleAgent_reward_ball_hit_table";
     public static string env_penalty_foul_hit = "singleAgent_penalty_foul_hit";
     public static string env_penalty_no_hit = "singleAgent_penalty_no_hit";
-    public static string env_penalty_foul_floor = "singleAgent_rpenalty_foul_floor";
+    public static string env_penalty_foul_floor = "singleAgent_penalty_foul_floor";
     public static string env_penalty_boundary_hit = "singleAgent_penalty_boundary_hit";
     public static string env_penalty_net_hit = "singleAgent_penalty_net_hit";
 
