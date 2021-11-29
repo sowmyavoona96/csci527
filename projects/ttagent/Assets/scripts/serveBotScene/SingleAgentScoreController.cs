@@ -84,6 +84,7 @@ public class SingleAgentScoreController : MonoBehaviour
         stepText.text = agentA.StepCount.ToString();
         episodeText.text = agentA.CompletedEpisodes.ToString();
 
+        
         if (agentA.getScore() >= 11 || agentB.getScore() >= 11)
         {
             currGame++;
@@ -109,5 +110,6 @@ public class SingleAgentScoreController : MonoBehaviour
 
             gameController.matchReset();
         }
+        
     }
 }

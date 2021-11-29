@@ -148,10 +148,8 @@ public class SingleAgentGameController : MonoBehaviour
         TeamEnum nextAgentTurn)
     {
         Debug.Log("ball hits boundary call: ");
-        if(boundary == null)
-            Debug.Log("ball hits net");
-        else
-            Debug.Log("ball hits: " + boundary.teamEnum.ToString());
+        if(boundary==null) Debug.Log("net");
+        else Debug.Log(boundary.teamEnum.ToString());
        
         Debug.Log("lastCollidedWith: " + lastCollidedWith.ToString()
             + ", lastHitAgentTeam: " + lastHitAgentTeam.ToString()
@@ -172,7 +170,9 @@ public class SingleAgentGameController : MonoBehaviour
             //agentPenalty(TeamEnum.AGENT);
         }
         else if (lastHitAgentTeam == TeamEnum.BOT) {
-            Debug.Log("bot threw ball onto boundary: " + boundary.teamEnum.ToString());
+            Debug.Log("bot threw ball onto boundary: ");
+            if(boundary==null) Debug.Log("net");
+            else Debug.Log(boundary.teamEnum.ToString());
             agentScores(TeamEnum.AGENT);
             //TODO 
 

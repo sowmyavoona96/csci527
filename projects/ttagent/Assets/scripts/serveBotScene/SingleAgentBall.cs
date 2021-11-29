@@ -104,11 +104,14 @@ public class SingleAgentBall : MonoBehaviour
             gameController.ballHitsBoundary(boundaryType,
                  lastCollidedWith, lastHitAgent, nextAgentTurn);
 
-            lastCollidedWith = boundaryType.Equals(TeamEnum.AGENT) ?
-                ObjectTypeEnum.BOUNDARY_A : ObjectTypeEnum.BOUNDARY_B;
             if (boundaryType == null)
                 lastCollidedWith = ObjectTypeEnum.NET;
 
+            else {
+                lastCollidedWith = boundaryType.Equals(TeamEnum.AGENT) ?
+                ObjectTypeEnum.BOUNDARY_A : ObjectTypeEnum.BOUNDARY_B;
+            }
+            
         }
 
         else

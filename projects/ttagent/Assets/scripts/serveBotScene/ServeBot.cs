@@ -25,8 +25,8 @@ public class ServeBot : MonoBehaviour
         var ballPos_Y = Random.Range(init_transform_ball_Y_LB, init_transform_ball_Y_UB);
         var ballPos_Z = Random.Range(init_transform_ball_Z_LB, init_transform_ball_Z_UB);
 
-        //  gameObject.transform.position = new Vector3(gameObject.transform.position.x,
-        //    gameObject.transform.position.y, ballPos_Z);
+        gameObject.transform.position = new Vector3(gameObject.transform.position.x,
+            gameObject.transform.position.y, ballPos_Z);
 
         ballRB.transform.position = new Vector3(ballPos_X, ballPos_Y,
             ballPos_Z);

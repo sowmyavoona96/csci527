@@ -2,7 +2,7 @@ For training using:
 1. TT: In Unity Behavior name of the agent bats set to 'My Behavior'.
  
 2. Bat A vs Bat B: In Unity change Behavior name of the agent bats from 'My Behavior' to 'Bat A' & 'Bat B' respectively for the two agent bats. 
-
+--
 
 
 Steps for training the agent:
