@@ -1,0 +1,17 @@
+{
+    "measure" : "progress",
+    "thresholds" : [0.3, 0.3, 0.4],
+    "min_lesson_length" : 100,
+    "signal_smoothing" : true,
+    "parameters" :
+    {
+        "singleAgent_reward_ball_hit" : [0.6, 0.4, 0.2],
+        "singleAgent_reward_ball_over_net": [0.3, 0.3, 0.3],
+        "singleAgent_reward_ball_hit_table": [0.1, 0.3, 0.5],
+        "singleAgent_penalty_foul_hit": [-0.01, -0.07, -0.1],
+        "singleAgent_penalty_foul_floor": [-0.01, -0.07, -0.1],
+        "singleAgent_penalty_no_hit": [-0.01, -0.07, -0.1],
+        "singleAgent_penalty_boundary_hit": [-0.01, -0.07, -0.1],
+        "singleAgent_penalty_net_hit": [-0.01, -0.07, -0.1],
+    }
+}
