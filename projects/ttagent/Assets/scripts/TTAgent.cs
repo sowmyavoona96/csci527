@@ -14,6 +14,10 @@ public class TTAgent : Agent{
 
     float agent_mult;
     int score;
+    Vector3 localScale;
+
+    public int blockOffset = 10;
+    public float size = 40f;
 
     Rigidbody agentRB;
     Rigidbody ballRB;
@@ -130,6 +134,12 @@ public class TTAgent : Agent{
         var x_rb = isAgentA ? TTConstants.init_transform_agent_X_RB :
             agent_mult * TTConstants.init_transform_agent_X_LB;
 
+        localScale = new Vector3(
+                10.0f,
+                (float)Academy.Instance.EnvironmentParameters.GetWithDefault("block_offset", blockOffset),
+                (float)Academy.Instance.EnvironmentParameters.GetWithDefault("block_offset", blockOffset));
+        transform.localScale = localScale;
+
         transform.position = new Vector3(Random.Range(x_lb, x_rb),
             Random.Range(TTConstants.init_transform_agent_Y_LB,
             TTConstants.init_transform_agent_Y_UB), 0);
@@ -138,6 +148,7 @@ public class TTAgent : Agent{
                   agent_mult * TTConstants.init_rotate_agent_X,
                    TTConstants.init_rotate_agent_Y,
                    agent_mult * TTConstants.init_rotate_agent_Z);
+
     }
 
     public void resetScore()

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657838, g: 0.49641234, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2891,7 +2891,7 @@ MonoBehaviour:
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 5022602860645237092, guid: 8ed3d0f8c3c574cc6a62bdfc20735da3, type: 3}
   m_InferenceDevice: 0
-  m_BehaviorType: 2
+  m_BehaviorType: 0
   m_BehaviorName: My Behavior
   TeamId: 0
   m_UseChildSensors: 1
@@ -2916,6 +2916,8 @@ MonoBehaviour:
   ttArea: {fileID: 7325301}
   ball: {fileID: 618155682}
   isAgentA: 0
+  blockOffset: 0
+  size: 40
 --- !u!1 &1447094130
 GameObject:
   m_ObjectHideFlags: 0
@@ -3849,6 +3851,8 @@ MonoBehaviour:
   ttArea: {fileID: 7325301}
   ball: {fileID: 618155682}
   isAgentA: 1
+  blockOffset: 0
+  size: 40
 --- !u!114 &1968804837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4469,6 +4473,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5722168504380414926, guid: f49f097561511dd499970e7f53740fdd, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5722168504380414926, guid: f49f097561511dd499970e7f53740fdd, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5722168504380414926, guid: f49f097561511dd499970e7f53740fdd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.073
       objectReference: {fileID: 0}
@@ -4650,7 +4662,7 @@ Transform:
   m_GameObject: {fileID: 8296172667946248410}
   m_LocalRotation: {x: -0.50378126, y: 0.4961011, z: -0.49231696, w: -0.50765365}
   m_LocalPosition: {x: -0.082, y: 0.138, z: -0.02}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalScale: {x: 10, y: 50, z: 50}
   m_Children: []
   m_Father: {fileID: 7325302}
   m_RootOrder: 2

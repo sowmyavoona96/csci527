@@ -25,7 +25,7 @@ behaviors:
             strength: 1.0
 
     keep_checkpoints: 5
-    max_steps: 20000000
+    max_steps: 2000000
     time_horizon: 64
     summary_freq: 10000
     threaded: true
@@ -42,5 +42,42 @@ environment_parameters:
     max_academy_steps: 5000
     reward_ball_hit: 0.002
     reward_ball_over_net: 0.008
+
+    block_offset:
+      curriculum:
+        - name: Lesson0
+          completion_criteria:
+            measure: progress
+            behavior: my_behaviour
+            signal_smoothing: true
+            min_lesson_length: 100
+            threshold: 0.1
+          value: 50
+        - name: Lesson1
+          completion_criteria:
+            measure: progress
+            behavior: my_behaviour
+            signal_smoothing: true
+            min_lesson_length: 100
+            threshold: 0.3
+          value: 40
+        - name: Lesson2
+          completion_criteria:
+            measure: progress
+            behavior: my_behaviour
+            signal_smoothing: true
+            min_lesson_length: 100
+            threshold: 0.5
+          value: 30
+        - name: Lesson3
+          completion_criteria:
+            measure: progress
+            behavior: my_behaviour
+            signal_smoothing: true
+            min_lesson_length: 100
+            threshold: 0.7
+          value: 20
+        - name: Lesson4
+          value: 10
         
         
